@@ -1,0 +1,13 @@
+{
+  "name": "czone-tech/improved-catalog-search",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "master"
+    }
+  }
+}
