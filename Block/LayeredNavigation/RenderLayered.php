@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright © 2016 Czone Technologies. All rights reserved.
+ */
 
  namespace CzoneTech\ImprovedCatalogSearch\Block\LayeredNavigation;
 
@@ -23,7 +26,7 @@ class RenderLayered extends \Magento\Swatches\Block\LayeredNavigation\RenderLaye
      */
     public function buildUrl($attributeCode, $optionId)
     {
-        $requestValue = $this->getRequest()->getParam($attributeCode);
+        $requestValue = explode(',', $this->getRequest()->getParam($attributeCode));
         if(is_array($requestValue)){
             if(!in_array($optionId, $requestValue)){
                 $newValue = array_merge($requestValue, [$optionId]);

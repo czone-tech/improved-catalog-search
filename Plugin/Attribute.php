@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ashish
- * Date: 1/4/16
- * Time: 6:29 PM
+ * Copyright © 2016 Czone Technologies. All rights reserved.
  */
 namespace CzoneTech\ImprovedCatalogSearch\Plugin;
 
@@ -11,24 +8,58 @@ namespace CzoneTech\ImprovedCatalogSearch\Plugin;
 
 class Attribute{
 
-    /*public function aroundApply(\Magento\Catalog\Model\Layer\Filter\Attribute $subject, \Closure
+    /**
+     * @var \Magento\Catalog\Model\Layer\Filter\ItemFactory
+     */
+    protected $_filterItemFactory;
+
+    public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+    ){
+        $this->_filterItemFactory = $filterItemFactory;
+    }
+
+
+    public function aroundApply(\Magento\CatalogSearch\Model\Layer\Filter\Attribute $subject, \Closure
     $method, \Magento\Framework\App\RequestInterface $request){
-        $filters = $request->getParam($subject->getRequestVar());
+        $filters = explode(',', $request->getParam($subject->getRequestVar()));
         if ($filters === null) {
             return $subject;
         }
         if(!is_array($filters)){
             $filters = [$filters];
         }
+        $attribute = $subject->getAttributeModel();
+        /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
+        $productCollection = $subject->getLayer()
+            ->getProductCollection();
         foreach($filters as $filter){
-            $text = $subject->getAttributeModel()->getFrontend()->getOption($filter);
-            if ($filter && strlen($text)) {
-                $subject->_getResource()->applyFilterToCollection($subject, $filter);
-                $subject->getLayer()->getState()->addFilter($subject->_createItem($text, $filter));
-                $subject->setItems([]);
+            $label = $subject->getAttributeModel()->getFrontend()->getOption($filter);
+            if ($filter && strlen($label)) {
+                $productCollection->addFieldToFilter($attribute->getAttributeCode(), $filter);
+                $subject->getLayer()
+                    ->getState()
+                    ->addFilter($this->_createItem($subject, $label, $filter));
             }
         }
 
         return $subject;
-    }*/
+    }
+
+    /**
+     * Create filter item object
+     *
+     * @param   string $label
+     * @param   mixed $value
+     * @param   int $count
+     * @return  \Magento\Catalog\Model\Layer\Filter\Item
+     */
+    protected function _createItem($filter, $label, $value, $count = 0)
+    {
+        return $this->_filterItemFactory->create()
+            ->setFilter($filter)
+            ->setLabel($label)
+            ->setValue($value)
+            ->setCount($count);
+    }
 }

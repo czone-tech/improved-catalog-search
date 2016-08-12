@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ashish
- * Date: 2/5/16
- * Time: 3:46 PM
+ * Copyright © 2016 Czone Technologies. All rights reserved.
  */
 
 namespace CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter;

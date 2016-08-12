@@ -9,5 +9,9 @@
                 type="CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\Attribute"/>
     <preference for="Magento\Swatches\Helper\Data"
                 type="CzoneTech\ImprovedCatalogSearch\Helper\Data"/>
+    <type name="\Magento\CatalogSearch\Model\Layer\Filter\Attribute">
+        <plugin name="CzoneTech_ImprovedCatalogSearch_filter_attribute_plugin"
+                type="\CzoneTech\ImprovedCatalogSearch\Plugin\Attribute" disabled="false" />
+    </type>
 
 </config>
