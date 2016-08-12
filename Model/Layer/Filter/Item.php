@@ -39,10 +39,11 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
         $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
         if($requestValue){
             $requestValue = explode(',', $requestValue);
-            if(!in_array($this->getValue(), $requestValue)){
-                $newValue = array_merge($requestValue, [$this->getValue()]);
+            $value = $this->getValue();
+            if(!in_array($value, $requestValue)){
+                $newValue = array_merge($requestValue, [$value]);
             }else{
-                $newValue = array_diff($requestValue, [$this->getValue()]);
+                $newValue = array_diff($requestValue, [$value]);
             }
         }else{
             $newValue = [$this->getValue()];
@@ -64,16 +65,21 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
      */
     public function getRemoveUrl()
     {
-        $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
-        if($requestValue){
-            $requestValue = explode(',', $requestValue);
-            $newValue = array_diff($requestValue, [$this->getValue()]);
-        }else{
-            $newValue = $this->getFilter()->getResetValue();
+        /**
+         * @var $filter \Magento\Catalog\Model\Layer\Filter\Item
+         */
+        $filterValues = [];
+        $filters = $this->getFilter()->getLayer()->getState()->getFilters();
+        foreach($filters as $filter){
+            if($filter->getFilter()->getRequestVar() == $this->getFilter()->getRequestVar()){
+                if($filter->getValueString() != $this->getValueString()){
+                    $filterValues[] = $filter->getFilter()->getRequestVar() == 'price'? implode('-',
+                        $filter->getValue()): $filter->getValueString();
+                }
+            }
         }
-        $query = [
-            $this->getFilter()->getRequestVar() => implode(',', $newValue)
-        ];
+        $filterValue = implode(',', $filterValues);
+        $query = [$this->getFilter()->getRequestVar() => $filterValue];
         $params['_current'] = true;
         $params['_use_rewrite'] = true;
         $params['_query'] = $query;

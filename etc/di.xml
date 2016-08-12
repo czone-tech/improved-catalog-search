@@ -13,5 +13,8 @@
         <plugin name="CzoneTech_ImprovedCatalogSearch_filter_attribute_plugin"
                 type="\CzoneTech\ImprovedCatalogSearch\Plugin\Attribute" disabled="false" />
     </type>
-
+    <type name="\Magento\CatalogSearch\Model\Layer\Filter\Price">
+        <plugin name="CzoneTech_ImprovedCatalogSearch_filter_price_plugin"
+                type="\CzoneTech\ImprovedCatalogSearch\Plugin\Price" disabled="false" />
+    </type>
 </config>

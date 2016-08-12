@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright © 2016 Czone Technologies. All rights reserved.
+ * Created by PhpStorm.
+ * User: ashish
+ * Date: 1/4/16
+ * Time: 6:29 PM
  */
 namespace CzoneTech\ImprovedCatalogSearch\Plugin;
 
