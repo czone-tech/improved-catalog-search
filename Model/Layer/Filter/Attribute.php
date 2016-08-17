@@ -30,15 +30,10 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\ResourceModel\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\StringUtils $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
-        \CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\AttributeFactory
-        $improvedFilterAttributeFactory,
-        \CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\ItemFactory $improvedFilterItemFactory,
         array $data = []
     ) {
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $filterAttributeFactory,
             $string, $tagFilter, $data);
-        $this->_resource = $improvedFilterAttributeFactory->create();
-        $this->_filterItemFactory = $improvedFilterItemFactory;
     }
 
     /**

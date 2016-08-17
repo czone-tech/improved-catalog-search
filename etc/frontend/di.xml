@@ -5,12 +5,32 @@
                 type="CzoneTech\ImprovedCatalogSearch\Helper\Data"/>
 
 
+    <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Attribute">
+        <arguments>
+            <argument name="filterItemFactory" xsi:type="object">CzoneTechFilterItemFact</argument>
+            <argument name="filterAttributeFactory" xsi:type="object">CzoneTechFilterAttributeFact</argument>
+        </arguments>
+    </type>
+    <virtualType name="CzoneTechFilterAttributeFact"
+                 type="\Magento\Catalog\Model\ResourceModel\Layer\Filter\AttributeFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\Attribute</argument>
+        </arguments>
+    </virtualType>
+
     <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Price">
         <arguments>
+            <argument name="filterItemFactory" xsi:type="object">CzoneTechFilterItemFact</argument>
             <argument name="dataProviderFactory"
                       xsi:type="object">CzoneTechDataProvider</argument>
         </arguments>
     </type>
+    <virtualType name="CzoneTechFilterItemFact"
+                 type="Magento\Catalog\Model\Layer\Filter\ItemFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Item</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="CzoneTechDataProvider"
                  type="Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory">
         <arguments>

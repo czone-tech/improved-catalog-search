@@ -43,16 +43,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
         \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory,
-        \CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\PriceFactory
-        $improvedFilterAttributeFactory,
-        \CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\ItemFactory $improvedFilterItemFactory,
         array $data = []
     ) {
 
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $resource, $customerSession,
             $priceAlgorithm, $priceCurrency, $algorithmFactory, $dataProviderFactory, $data);
-        $this->_resource = $improvedFilterAttributeFactory->create();
-        $this->_filterItemFactory = $improvedFilterItemFactory;
         $this->dataProvider = $dataProviderFactory->create(['layer' => $this->getLayer()]);
         $this->algorithmFactory = $algorithmFactory;
     }
