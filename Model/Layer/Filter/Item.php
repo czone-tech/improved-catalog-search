@@ -37,25 +37,22 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
     public function getUrl()
     {
         $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
-        if($requestValue){
-            $requestValue = explode(',', $requestValue);
-            $value = $this->getValue();
-            if(!in_array($value, $requestValue)){
-                $newValue = array_merge($requestValue, [$value]);
+        if(is_array($requestValue)){
+            if(!in_array($this->getValue(), $requestValue)){
+                $newValue = array_merge($requestValue, [$this->getValue()]);
             }else{
-                $newValue = array_diff($requestValue, [$value]);
+                $newValue = array_diff($requestValue, [$this->getValue()]);
             }
         }else{
             $newValue = [$this->getValue()];
         }
 
         $query = [
-            $this->getFilter()->getRequestVar() => implode(',', $newValue),
+            $this->getFilter()->getRequestVar() => $newValue,
             // exclude current page from urls
             $this->_htmlPagerBlock->getPageVarName() => null,
         ];
-        return $this->_url->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true, '_query' => $query,
-            '_escape' => false]);
+        return $this->_url->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true, '_query' => $query]);
     }
 
     /**
@@ -65,21 +62,18 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
      */
     public function getRemoveUrl()
     {
-        /**
-         * @var $filter \Magento\Catalog\Model\Layer\Filter\Item
-         */
-        $filterValues = [];
-        $filters = $this->getFilter()->getLayer()->getState()->getFilters();
-        foreach($filters as $filter){
-            if($filter->getFilter()->getRequestVar() == $this->getFilter()->getRequestVar()){
-                if($filter->getValueString() != $this->getValueString()){
-                    $filterValues[] = $filter->getFilter()->getRequestVar() == 'price'? implode('-',
-                        $filter->getValue()): $filter->getValueString();
-                }
+        $requestVar = $this->getFilter()->getRequestVar();
+        $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
+        if(is_array($requestValue)){
+            $value = $this->getValue();
+            if($requestVar == 'price'){
+                $value = implode('-', $value);
             }
+            $newValue = array_diff($requestValue, [$value]);
+        }else{
+            $newValue = $this->getFilter()->getResetValue();
         }
-        $filterValue = implode(',', $filterValues);
-        $query = [$this->getFilter()->getRequestVar() => $filterValue];
+        $query = [$this->getFilter()->getRequestVar() => $newValue];
         $params['_current'] = true;
         $params['_use_rewrite'] = true;
         $params['_query'] = $query;

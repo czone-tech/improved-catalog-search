@@ -1,0 +1,60 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered"
+                type="CzoneTech\ImprovedCatalogSearch\Block\LayeredNavigation\RenderLayered"/>
+    <preference for="Magento\Swatches\Helper\Data"
+                type="CzoneTech\ImprovedCatalogSearch\Helper\Data"/>
+
+
+    <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Price">
+        <arguments>
+            <argument name="dataProviderFactory"
+                      xsi:type="object">CzoneTechDataProvider</argument>
+        </arguments>
+    </type>
+    <virtualType name="CzoneTechDataProvider"
+                 type="Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">CzoneTechDataProviderPrice</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CzoneTechDataProviderPrice"
+                 type="Magento\Catalog\Model\Layer\Filter\DataProvider\Price">
+        <arguments>
+            <argument name="resource" xsi:type="object">CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\Price</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\Category" type="Magento\LayeredNavigation\Block\Navigation">
+        <arguments>
+            <argument name="filterList" xsi:type="object">improvedCategoryFilterList</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\Search" type="Magento\LayeredNavigation\Block\Navigation">
+        <arguments>
+            <argument name="filterList" xsi:type="object">improvedSearchFilterList</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="improvedCategoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Category\FilterableAttributeList</argument>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="improvedSearchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Search\FilterableAttributeList</argument>
+            <argument name="filters" xsi:type="array">
+                <item name="attribute" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Attribute</item>
+                <item name="price" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Price</item>
+                <item name="decimal" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Decimal</item>
+                <item name="category" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Category</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+</config>

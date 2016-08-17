@@ -13,6 +13,35 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
 
     /**
+     * @param ItemFactory $filterItemFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
+     * @param \Magento\Catalog\Model\ResourceModel\Layer\Filter\AttributeFactory $filterAttributeFactory
+     * @param \Magento\Framework\Stdlib\StringUtils $string
+     * @param \Magento\Framework\Filter\StripTags $tagFilter
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
+        \Magento\Catalog\Model\ResourceModel\Layer\Filter\AttributeFactory $filterAttributeFactory,
+        \Magento\Framework\Stdlib\StringUtils $string,
+        \Magento\Framework\Filter\StripTags $tagFilter,
+        \CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\AttributeFactory
+        $improvedFilterAttributeFactory,
+        \CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\ItemFactory $improvedFilterItemFactory,
+        array $data = []
+    ) {
+        parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $filterAttributeFactory,
+            $string, $tagFilter, $data);
+        $this->_resource = $improvedFilterAttributeFactory->create();
+        $this->_filterItemFactory = $improvedFilterItemFactory;
+    }
+
+    /**
      * Apply attribute option filter to product collection
      *
      * @param   \Magento\Framework\App\RequestInterface $request
