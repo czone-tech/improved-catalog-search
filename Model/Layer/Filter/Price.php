@@ -85,18 +85,32 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 }
 
 
-                $this->getLayer()
-                    ->getState()
-                    ->addFilter(
-                        $this->_createItem($this->_renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)
-                    );
+
 
             }
+        }
+        usort($this->intervals, [$this, 'sortFilterArray']);
+
+        foreach($this->intervals as $filter){
+            list($from, $to) = $filter;
+            $this->getLayer()
+                ->getState()
+                ->addFilter(
+                    $this->_createItem($this->_renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)
+                );
         }
 
         $this->_applyPriceRange();
 
         return $this;
+    }
+
+    private function sortFilterArray($a, $b)
+    {
+        if ($a[0] == $b[0]) {
+            return 0;
+        }
+        return ($a[0] < $b[0]) ? -1 : 1;
     }
 
     /**
@@ -123,7 +137,17 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         }
     }
 
+    /**
+     * Apply price range filter to collection
+     *
+     * @return $this
+     */
+    protected function _applyPriceRange()
+    {
+        $this->dataProvider->getResource()->applyPriceRange($this, $this->intervals);
 
+        return $this;
+    }
 
     /**
      * Get data for build price filter items

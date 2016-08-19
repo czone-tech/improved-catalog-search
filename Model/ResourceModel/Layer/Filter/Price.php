@@ -32,7 +32,7 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
         $select = $filter->getLayer()->getProductCollection()->getSelect();
         $priceExpr = $this->_getPriceExpression($select, false);
 
-        foreach($intervals as $interval){
+        foreach( $intervals as $interval){
             list($from, $to) = $interval;
             if ($from === '' && $to === '') {
                 return $this;

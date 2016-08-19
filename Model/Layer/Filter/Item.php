@@ -41,7 +41,8 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
             if(!in_array($this->getValue(), $requestValue)){
                 $newValue = array_merge($requestValue, [$this->getValue()]);
             }else{
-                $newValue = array_diff($requestValue, [$this->getValue()]);
+                //array_values is used to reset the keys of the difference array
+                $newValue = array_values(array_diff($requestValue, [$this->getValue()]));
             }
         }else{
             $newValue = [$this->getValue()];
@@ -69,7 +70,7 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
             if($requestVar == 'price'){
                 $value = implode('-', $value);
             }
-            $newValue = array_diff($requestValue, [$value]);
+            $newValue = array_values(array_diff($requestValue, [$value]));
         }else{
             $newValue = $this->getFilter()->getResetValue();
         }

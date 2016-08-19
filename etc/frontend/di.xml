@@ -1,10 +1,18 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\Swatches\Block\LayeredNavigation\RenderLayered"
-                type="CzoneTech\ImprovedCatalogSearch\Block\LayeredNavigation\RenderLayered"/>
-    <preference for="Magento\Swatches\Helper\Data"
-                type="CzoneTech\ImprovedCatalogSearch\Helper\Data"/>
-
-
+    <type name="Magento\Swatches\Model\Plugin\ProductImage">
+        <arguments>
+            <argument name="swatchesHelperData" xsi:type="object">CzoneTech\ImprovedCatalogSearch\Helper\Data</argument>
+        </arguments>
+    </type>
+    <type name="CzoneTech\ImprovedCatalogSearch\Model\Plugin\FilterRenderer">
+        <arguments>
+            <argument name="swatchHelper" xsi:type="object">CzoneTech\ImprovedCatalogSearch\Helper\Data</argument>
+        </arguments>
+    </type>
+    <type name="Magento\LayeredNavigation\Block\Navigation\FilterRenderer">
+        <plugin name="swatches_layered_renderer" type="CzoneTech\ImprovedCatalogSearch\Model\Plugin\FilterRenderer"
+                sortOrder="1" />
+    </type>
     <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Attribute">
         <arguments>
             <argument name="filterItemFactory" xsi:type="object">CzoneTechFilterItemFact</argument>

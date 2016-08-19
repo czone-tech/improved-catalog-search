@@ -26,7 +26,7 @@ class RenderLayered extends \Magento\Swatches\Block\LayeredNavigation\RenderLaye
      */
     public function buildUrl($attributeCode, $optionId)
     {
-        $requestValue = explode(',', $this->getRequest()->getParam($attributeCode));
+        $requestValue = $this->getRequest()->getParam($attributeCode);
         if(is_array($requestValue)){
             if(!in_array($optionId, $requestValue)){
                 $newValue = array_merge($requestValue, [$optionId]);
