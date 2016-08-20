@@ -55,14 +55,8 @@ class Attribute extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Attrib
         //Otherwise count won't be correct. Count must be calculated without applying that filter
         $tableAlias = $filter->getAttributeModel()->getAttributeCode() . '_idx';
         $fromTables = $select->getPart(\Magento\Framework\DB\Select::FROM);
-        $select->reset(\Magento\Framework\DB\Select::FROM);
-
-        foreach($fromTables as $key => $fromTable){
-            if($key !== $tableAlias){
-                $select->join([$key => $fromTable['tableName']], $fromTable['joinCondition'], null);
-            }
-        }
-
+        unset($fromTables[$tableAlias]);
+        $select->setPart(\Magento\Framework\DB\Select::FROM, $fromTables);
 
         $connection = $this->getConnection();
         $attribute = $filter->getAttributeModel();
