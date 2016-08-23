@@ -17,8 +17,6 @@ class RenderLayered extends \Magento\Swatches\Block\LayeredNavigation\RenderLaye
      */
     protected $_template = 'CzoneTech_ImprovedCatalogSearch::product/layered/renderer.phtml';
 
-
-
     /**
      * @param string $attributeCode
      * @param int $optionId
