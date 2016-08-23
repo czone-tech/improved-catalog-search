@@ -11,24 +11,17 @@
         <plugin name="swatches_layered_renderer" type="CzoneTech\ImprovedCatalogSearch\Model\Plugin\FilterRenderer"
                 sortOrder="1" />
     </type>
+
     <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Attribute">
         <arguments>
             <argument name="filterItemFactory" xsi:type="object">CzoneTechFilterItemFact</argument>
-            <argument name="filterAttributeFactory" xsi:type="object">CzoneTechFilterAttributeFact</argument>
+
         </arguments>
     </type>
-    <virtualType name="CzoneTechFilterAttributeFact"
-                 type="\Magento\Catalog\Model\ResourceModel\Layer\Filter\AttributeFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\Attribute</argument>
-        </arguments>
-    </virtualType>
 
     <type name="CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Price">
         <arguments>
             <argument name="filterItemFactory" xsi:type="object">CzoneTechFilterItemFact</argument>
-            <argument name="dataProviderFactory"
-                      xsi:type="object">CzoneTechDataProvider</argument>
         </arguments>
     </type>
     <virtualType name="CzoneTechFilterItemFact"
@@ -37,18 +30,8 @@
             <argument name="instanceName" xsi:type="string">CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter\Item</argument>
         </arguments>
     </virtualType>
-    <virtualType name="CzoneTechDataProvider"
-                 type="Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">CzoneTechDataProviderPrice</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="CzoneTechDataProviderPrice"
-                 type="Magento\Catalog\Model\Layer\Filter\DataProvider\Price">
-        <arguments>
-            <argument name="resource" xsi:type="object">CzoneTech\ImprovedCatalogSearch\Model\ResourceModel\Layer\Filter\Price</argument>
-        </arguments>
-    </virtualType>
+
+
 
     <virtualType name="Magento\LayeredNavigation\Block\Navigation\Category" type="Magento\LayeredNavigation\Block\Navigation">
         <arguments>

@@ -36,6 +36,9 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
      */
     public function getUrl()
     {
+        if($this->getFilter()->getRequestVar() == 'price'){
+            return parent::getUrl();
+        }
         $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
         if(is_array($requestValue)){
             if(!in_array($this->getValue(), $requestValue)){
@@ -63,13 +66,12 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
      */
     public function getRemoveUrl()
     {
-        $requestVar = $this->getFilter()->getRequestVar();
+        if($this->getFilter()->getRequestVar() == 'price'){
+            return parent::getRemoveUrl();
+        }
         $requestValue = $this->_request->getParam($this->getFilter()->getRequestVar());
         if(is_array($requestValue)){
             $value = $this->getValue();
-            if($requestVar == 'price'){
-                $value = implode('-', $value);
-            }
             $newValue = array_values(array_diff($requestValue, [$value]));
         }else{
             $newValue = $this->getFilter()->getResetValue();

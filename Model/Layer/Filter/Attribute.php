@@ -9,7 +9,7 @@
 namespace CzoneTech\ImprovedCatalogSearch\Model\Layer\Filter;
 
 
-class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
+class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute
 {
 
 
@@ -22,27 +22,30 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function apply(\Magento\Framework\App\RequestInterface $request)
     {
-        $filters = $request->getParam($this->_requestVar);
-        if($filters === null){
+        $attributeValues = $request->getParam($this->_requestVar);
+
+        if (empty($attributeValues)) {
             return $this;
         }
-        if (!is_array($filters)) {
-            $filters = [$filters];
-        }
-        //Apply filters to the collection
-        $this->_getResource()->applyFilterToCollection($this, $filters);
-        //Add the filter values to 'state'. So for multiple values, this gets added multiple times
-        foreach($filters as $filter){
-            $text = $this->getOptionText($filter);
-            if ($filter && strlen($text)) {
-                $this->getLayer()->getState()->addFilter($this->_createItem($text, $filter));
-                //It is very important to comment the line below, otherwise any attribute that has a value in
-                // RequestVar will have its items set to '[]', and the associated filters section won't show in the
-                // layered navigation block
-                //$this->_items = [];
-            }
+        $attribute = $this->getAttributeModel();
+
+
+        $newAttributeValues = [];
+        foreach($attributeValues as $key => $attributeValue){
+            //Modify index of filter array to give it 'text keys', so that it gets added to the product collection
+            // filters properly
+            $newAttributeValues[$attribute->getAttributeCode().'_'.$key] = intval($attributeValue);
+            $label = $this->getOptionText($attributeValue);
+            $this->getLayer()
+                ->getState()
+                ->addFilter($this->_createItem($label, $attributeValue));
         }
 
+        /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $productCollection */
+        $productCollection = $this->getLayer()
+            ->getProductCollection();
+        $productCollection->addFieldToFilter($attribute->getAttributeCode(), $newAttributeValues);
+        //$this->setItems([]); // set items to disable show filtering
         return $this;
     }
 
