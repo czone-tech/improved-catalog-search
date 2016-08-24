@@ -19,13 +19,27 @@
     <?php foreach ($filterItems as $filterItem): ?>
         <li class="item">
             <?php if ($filterItem->getCount() > 0): ?>
-                <a href="<?php echo $block->escapeUrl($filterItem->getUrl()) ?>">
+                <?php
+                $values = $filterItem->getFilterValues();
+                if(!$values){
+                    $values = [];
+                }else if(!is_array($values)){
+                    $values = [$values];
+                }
+                $checked = in_array($filterItem->getValue(), $values)? true: false;
+                $uniqueId = 'filter_'.$filterItem->getFilter()->getRequestVar().'_'.$filterItem->getValue();?>
+                <input id="<?php echo $uniqueId;?>" type="checkbox" <?php if($checked):?>checked="checked"<?php endif;?>
+                onchange="javascript:window.location.href='<?php
+                echo
+                $block->escapeUrl
+                ($filterItem->getUrl()) ?>';">
+                <label for="<?php echo $uniqueId;?>">
                     <?php /* @escapeNotVerified */ echo $filterItem->getLabel() ?>
                     <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
                         <span class="count"><?php /* @escapeNotVerified */ echo $filterItem->getCount()?><span class="filter-count-label">
                             <?php if ($filterItem->getCount() == 1):?> <?php /* @escapeNotVerified */ echo __('item')?><?php else:?> <?php /* @escapeNotVerified */ echo __('items') ?><?php endif;?></span></span>
                     <?php endif; ?>
-                </a>
+                </label>
             <?php else:?>
                 <?php /* @escapeNotVerified */ echo $filterItem->getLabel() ?>
                 <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>

@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var $block CzoneTech\ImprovedCatalogSearch\Block\LayeredNavigation\PriceFilterRenderer
+ */
+?>
+<script>
+    require([
+        'jquery',
+        "jquery/ui",
+        'domReady!'
+    ], function($){
+        var currencySymbol = '<?php echo $block->getCurrencySymbol();?>';
+        function setPriceRangeText(value1, value2){
+            $("[data-role=layered-navigation-price-range]").val( currencySymbol + value1 + " - " +currencySymbol + value2 );
+        }
+
+        var url = '<?php echo $block->getPriceFilterUrl();?>';
+        var range = <?php echo json_encode($block->getPriceRange());?>;
+        var min = range[0], max = range[1];
+
+        $("[data-role=layered-navigation-price-slider]").slider({
+            range: true,
+            min: min,
+            max: max,
+            values: [ min, max ],
+            slide: function( event, ui ) {
+                setPriceRangeText(ui.values[0], ui.values[1]);
+            },
+            change: function( event, ui ) {
+                window.location.href = url+ui.values.join('-');
+            }
+        });
+
+
+        setPriceRangeText($("[data-role=layered-navigation-price-slider]").slider('values', 0),
+                $("[data-role=layered-navigation-price-slider]").slider('values', 1));
+
+
+
+    });
+</script>
+<input type="text" id="layered-navigation-price-range" data-role="layered-navigation-price-range" readonly
+       style="border:0; color:#f6931f;
+    font-weight:bold;">
+<div data-role="layered-navigation-price-slider"></div>

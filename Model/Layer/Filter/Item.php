@@ -29,6 +29,11 @@ class Item extends \Magento\Catalog\Model\Layer\Filter\Item
         parent::__construct($url, $htmlPagerBlock, $data);
     }
 
+    public function getFilterValues(){
+        $values = $this->_request->getParam($this->getFilter()->getRequestVar());
+        return $values? $values: [];
+    }
+
     /**
      * Get filter item url
      *

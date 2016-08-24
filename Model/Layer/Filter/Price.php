@@ -13,4 +13,5 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
 {
 
 
+
 }
