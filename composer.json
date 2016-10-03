@@ -1,5 +1,5 @@
 {
-  "name": "czone-tech/improved-catalog-search",
+  "name": "czonetech/improved-catalog-search",
   "autoload": {
     "files": [
       "registration.php"
