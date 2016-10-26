@@ -1,5 +1,13 @@
 {
   "name": "czonetech/improved-catalog-search",
+  "authors":[
+    {
+      "name": "Czone Technologies",
+      "email": "support@czonetechnologies.com",
+      "homepage": "http://www.czonetechnologies.com/"
+    }
+  ],
+  "license": "GPL-2.0+",
   "description": "Allows the user of multiple values of a filter in Magento2 layered navigation (catalog search)",
   "keywords": [
     "magento 2",
